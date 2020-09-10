@@ -12,6 +12,7 @@ $(function () {
 
     // 表单验证 layui中获取form对象
     var form = layui.form
+    var layer = layui.layer
     // 通过form.verify() 函数自定义校验规则
     form.verify({
         // 自定义一个pwd的校验规则
@@ -30,4 +31,20 @@ $(function () {
     })
 
     // 监听注册表单的提交事件
+    $('#form_reg').on('submit', function (e) {
+        e.preventDefault()
+        // data踢出去
+        var data = {
+            username: $('#form_reg [name=username]').val(),
+            password: $('#form_reg [name=password]').val()
+        }
+        // ajax请求
+        $.post('http://ajax.frontend.itheima.net/api/reguser', data, function (res) {
+            if (res.status !==0) {
+                return layer.msg(res.message)
+            }
+            layer.msg('注册成功,去登陆')
+        $('#link_login').click()
+        })
+    })
 })
