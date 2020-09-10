@@ -39,7 +39,7 @@ $(function () {
             password: $('#form_reg [name=password]').val()
         }
         // ajax请求
-        $.post('http://ajax.frontend.itheima.net/api/reguser', data, function (res) {
+        $.post('/api/reguser', data, function (res) {
             if (res.status !==0) {
                 return layer.msg(res.message)
             }
@@ -51,7 +51,7 @@ $(function () {
     $('#form_login').submit(function (e) {
         e.preventDefault()
         $.ajax({
-            url: 'http://ajax.frontend.itheima.net/api/login',
+            url: '/api/login',
             method: 'POST',
             data:$(this).serialize(),
             success: function (res) {
