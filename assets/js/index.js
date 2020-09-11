@@ -14,6 +14,7 @@ $(function () {
             layer.close(index);// 关闭询问框
           });
     })
+})
     // 获取用户基本信息
     function getUserInfo() {
         $.ajax({
@@ -61,4 +62,4 @@ $(function () {
         }
     }
 
-})
+
