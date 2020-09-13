@@ -89,4 +89,26 @@ $(function () {
             }
         })
     })
+
+    // 通过代理形式,为删除按钮绑定点击事件
+    $('tbody').on('click', '.btn-delete', function () {
+        // 获取id
+        var id = $(this).attr('data-id')
+        // 提示用户是否删除
+        layer.confirm('确认删除?', {icon: 3, title:'提示'}, function(index){
+            //发起ajax请求
+            $.ajax({
+                method: 'GET',
+                url: '/my/article/deletecate/' + id,
+                success: function (res) {
+                    if (res.status !==0) {
+                        return layer.msg('删除文章分类失败！')
+                    }
+                    layer.msg('删除文章分类成功！')
+                    layer.close(index);
+                    initArtCateList()
+                }
+            })
+        })
+    })
 })
