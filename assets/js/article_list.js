@@ -47,6 +47,9 @@ $(function () {
                 // 使用模板引擎渲染页面数据
                 var htmlStr = template('tpl-table', res)
                 $('tbody').html(htmlStr)
+
+                // 调用渲染分页的方法
+                renderPage(res.total)
             }
         })
     }
@@ -80,5 +83,38 @@ $(function () {
         q.state = state
         initTable()
     })
+
+    // 定义渲染分页的方法
+    function renderPage(total) {  //total是接口文档数据传
+        // 调用 laypage.render() 方法来渲染分页的结构
+        laypage.render({
+            elem: 'pageBox', //注意，这里的 pageBox 是 ID，不用加 # 号
+            count: total, //数据总数，从服务端得到
+            limit: q.pagesize, //每页显示多少条数据
+            curr: q.pagenum, //起始页码值
+
+            // 当分页被切换时触发，函数返回两个参数：obj（当前分页的所有选项值）、first（是否首次，一般用于初始加载的判断）
+            // 触发 jump 回调的方式有两种：
+            // 1. 点击页码的时候，会触发 jump 回调
+            // 2. 只要调用了 laypage.render() 方法，就会触发 jump 回调
+            jump: function (obj, first) {
+                // 可以通过 first 的值，来判断是通过哪种方式，触发的 jump 回调
+                // 如果 first 的值为 true，证明是方式2触发的
+                // 否则就是方式1触发的
+                //obj包含了当前分页的所有参数，比如：
+                // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                // console.log(obj.limit); //得到每页显示的条数
+                console.log(first);
+                console.log(obj.curr);
+                // 把最新的页码值，赋值到 q 这个查询参数对象中
+                q.pagenum = obj.curr
+                // 重新渲染表格
+                //首次不执行
+                if(!first){
+                    initTable()
+                }
+              }
+          });
+    }
 
 })
