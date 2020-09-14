@@ -92,6 +92,8 @@ $(function () {
             count: total, //数据总数，从服务端得到
             limit: q.pagesize, //每页显示多少条数据
             curr: q.pagenum, //起始页码值
+            layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义排版
+            limits:[2,3,5,10],// 选择每页显示多少条
 
             // 当分页被切换时触发，函数返回两个参数：obj（当前分页的所有选项值）、first（是否首次，一般用于初始加载的判断）
             // 触发 jump 回调的方式有两种：
@@ -106,6 +108,8 @@ $(function () {
                 // console.log(obj.limit); //得到每页显示的条数
                 console.log(first);
                 console.log(obj.curr);
+                // 把最新的条目数，赋值到 q 这个查询参数对象中
+                q.pagesize = obj.limit
                 // 把最新的页码值，赋值到 q 这个查询参数对象中
                 q.pagenum = obj.curr
                 // 重新渲染表格
