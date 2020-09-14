@@ -121,4 +121,33 @@ $(function () {
           });
     }
 
+    // 删除功能
+    $('tbody').on('click', '.btn-delete', function () {
+        // 获取删除按钮的个数
+        var len = $('.btn-delete').length
+        console.log(len);
+        var id = $(this).attr('data-id')
+        layer.confirm('是否删除?', {icon: 3, title:'提示'}, function(index){
+            $.ajax({
+                method: 'GET',
+                url: '/my/article/delete/' + id,
+                success: function (res) {
+                    if (res.status !==0) {
+                        return layer.msg('删除失败！')
+                    }
+                    layer.msg('删除成功！')
+                    // 判断
+                    if (len === 1) {
+                        // 删除后页面就没有数据了
+                        //页码值最小必须是1
+                        q.pagenum = q.pagenum === 1 ? 1 : q.pagenum - 1
+                    }
+                    initTable()
+                }
+            })
+            
+            layer.close(index);
+          });       
+    })
+
 })
